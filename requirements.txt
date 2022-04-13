@@ -1,0 +1,46 @@
+Logistify
+
+Business requirements:
+
+Logistify allows both companies and individuals to create shipping inquiries for their goods that have to be moved from point A to point B which, in consequence, can be picked up by other companies or individuals that are available to offer this service.
+
+Any user can either place a or deliver a shipping order.
+
+This platform is going to be used world-wide, therefore the system should be always up and available to display the nearest shipping orders.
+
+Initially, Logistify will operate only in Moldova, but the system has to be design in a way to facilitate further expansion to other countries.
+
+A shipping order's lifetime is composed out of several possible events:
+
+Placing the order - When an user creates the shipping inquiry itself, along with other relevant details about the order such as description, weight, volume etc.
+
+Updating order details - When the details about the an existing shipping order get updated by the author.
+
+Canceling the order - When an user decide to cancel his order for any reason. This event occurs when the order was placed but wasn't picked up yet.
+
+Picking up an order - When a company or individual picks up the previously placed order and engages into delivering it to the destination.
+
+Abandoning an order - When the order has to be abandoned for some reason.
+
+Marking the order as delivered - When the company or individual finishes the delivery and the order has arrived to the final destination.
+
+Returning an order - If the order, which has been marked as delivered, is returned by the recipient to the sender.
+
+Redirecting an order - If the order was marked as delivered and the recipient sets a new destination.
+
+Order lost - When an order gets lost along the way
+
+For the sake of simplicity and to not deviate from the original scope of this proof of concept, the billing of the shipping service is excluded.
+
+
+Technical details:
+
+Starting from business requirements, there will be way more reads than writes, therefore making CQRS a suitable solution for this. Assuming that the application is intended to go world-wide, the solution should be highly scalable.
+
+Also, due to a shipping order being represented more via its history records rather than it's final state, it is worth to implement the Event Sourcing pattern, but this should be scoped only to order management as user management does not require any history tracking or complex auditing and it can adopt the traditional state-based CRUD model.
+
+The application will be composed out of a single K8S cluster, with an API gateway talking to instances of order query service, order command service and user service, making it possible to scale the reading part via increasing the number of instances if needed.
+
+OrderQueryService operates with the MongoDb read database, OrderCommandService with a MongoDb event store and user service - also with a mongoDb database.
+
+[scheme]
