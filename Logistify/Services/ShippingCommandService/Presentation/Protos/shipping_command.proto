@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+option csharp_namespace = "Presentation";
+
+package shipping_command;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+service ShippingCommandService {
+	rpc CreateShippingOrder (CreateShippingOrderRequest) returns (ShippingOrderDetails);
+	rpc UpdateShippingOrder (UpdateShippingOrderRequest) returns (ShippingOrderDetails);
+	rpc CancelShippingOrder (ShippingOrderRequest) returns (CommandResponse);
+}
+
+enum OrderStatus {
+	pending = 0;
+	canceled = 1;
+	delivered = 2;
+	in_progress = 3;
+	completed = 4;
+}
+
+message CreateShippingOrderRequest {
+	string address = 1;
+	google.protobuf.StringValue description = 2;
+	string placed_by = 3;
+}
+
+message UpdateShippingOrderRequest {
+	string address = 1;
+	google.protobuf.StringValue description = 2;
+}
+
+message ShippingOrderRequest {
+	string id = 1;
+}
+
+message ShippingOrderDetails {
+	string id = 1;
+	string address = 2;
+	OrderStatus status = 3;
+	string placed_by = 4;
+	google.protobuf.StringValue description = 5;
+}
+
+message CommandResponse {
+	bool operation_succeeded = 1;
+}

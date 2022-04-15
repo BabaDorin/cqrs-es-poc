@@ -27,14 +27,14 @@ message GetShippingOrderByIdRequest {
 message ShippingOrderDetails {
 	string id = 1;
 	string address = 2;
-	OrderStatus order_status = 3;
+	OrderStatus status = 3;
 	string placed_by = 4;
 	google.protobuf.StringValue description = 5;
 }
 
 message ShippingOrder {
 	string id = 1;
-	OrderStatus order_status = 2;
+	OrderStatus status = 2;
 	string address = 3;
 }
 

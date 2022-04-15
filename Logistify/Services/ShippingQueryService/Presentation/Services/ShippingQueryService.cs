@@ -25,7 +25,7 @@ namespace Presentation.Services
                 Id = result.Id.ToString(),
                 Address = result.Address,
                 Description = result.Description,
-                OrderStatus = (OrderStatus)result.Status,
+                Status = (OrderStatus)result.Status,
                 PlacedBy = result.PlacedBy
             };
 
@@ -45,7 +45,7 @@ namespace Presentation.Services
                 {
                     Id = order.Id.ToString(),
                     Address = order.Address,
-                    OrderStatus = (OrderStatus)order.Status,
+                    Status = (OrderStatus)order.Status,
                 });
 
                 response.Orders.AddRange(shippingOrders);
