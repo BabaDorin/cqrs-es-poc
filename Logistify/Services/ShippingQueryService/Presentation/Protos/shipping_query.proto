@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option csharp_namespace = "Presentation";
+
+package shipping_query;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+service ShippingQueryService {
+	rpc GetShippingOrderById (GetShippingOrderByIdRequest) returns (ShippingOrderDetails);
+	rpc GetShippingOrders (google.protobuf.Empty) returns (GetShippingOrdersResponse);
+}
+
+enum OrderStatus {
+	pending = 0;
+	canceled = 1;
+	delivered = 2;
+	in_progress = 3;
+	completed = 4;
+}
+
+message GetShippingOrderByIdRequest {
+	string id = 1;
+}
+
+message ShippingOrderDetails {
+	string id = 1;
+	string address = 2;
+	OrderStatus order_status = 3;
+	string placed_by = 4;
+	google.protobuf.StringValue description = 5;
+}
+
+message ShippingOrder {
+	string id = 1;
+	OrderStatus order_status = 2;
+	string address = 3;
+}
+
+message GetShippingOrdersResponse {
+	repeated ShippingOrder orders = 1;
+}
