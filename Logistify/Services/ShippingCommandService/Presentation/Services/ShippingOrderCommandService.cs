@@ -1,6 +1,7 @@
 using Application.ShippingOrders.Commands;
 using Grpc.Core;
 using MediatR;
+using Microsoft.AspNetCore.Server.HttpSys;
 
 namespace Presentation.Services
 {
@@ -47,7 +48,7 @@ namespace Presentation.Services
         public override async Task<ShippingOrderDetails> UpdateShippingOrder(
             UpdateShippingOrderRequest request, ServerCallContext context)
         {
-            var command = new UpdateShippingOrderCommand(request.Address, request.Description);
+            var command = new UpdateShippingOrderCommand(Guid.Parse(request.Id), request.Address, request.Description);
             var result = await mediator.Send(command, context.CancellationToken);
 
             if (result is null) return null;

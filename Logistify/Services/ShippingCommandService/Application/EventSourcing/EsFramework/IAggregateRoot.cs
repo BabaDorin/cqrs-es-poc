@@ -1,12 +1,12 @@
 ﻿using Domain.Abstractions;
 
-namespace Application.EventSourcing
+namespace Application.EventSourcing.EsFramework
 {
     public interface IAggregateRoot<TEntity> where TEntity : class
     {
         TEntity CurrentState { get; }
-        IList<TEntity> ChangeHistory { get; }
+        IList<IEvent> ChangeHistory { get; }
 
-        Task Apply<TEvent>(TEvent @event) where TEvent : IEvent;
+        Task Apply(IList<IEvent> events);
     }
 }

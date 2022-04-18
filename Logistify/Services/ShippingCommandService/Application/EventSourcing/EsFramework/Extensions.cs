@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Application.EventSourcing
+namespace Application.EventSourcing.EsFramework
 {
     public static class Extensions
     {

@@ -1,8 +1,7 @@
-﻿using Application.Event_Handling;
-using Domain.Abstractions;
+﻿using Domain.Abstractions;
 using System.Reflection;
 
-namespace Application.EventSourcing
+namespace Application.EventSourcing.EsFramework
 {
     public class EventResolver : IEventResolver
     {
@@ -32,7 +31,7 @@ namespace Application.EventSourcing
             where TEvent : IEvent
             where TEntity : class
         {
-            if(!eventAppliers.TryGetValue(new Tuple<Type, Type>(@event.GetType(), entity.GetType()), out object? eventApplier))
+            if (!eventAppliers.TryGetValue(new Tuple<Type, Type>(@event.GetType(), entity.GetType()), out object? eventApplier))
             {
                 if (eventApplier is null || !eventApplier.GetType().IsAssignableFrom(typeof(IEventApplier<TEvent, TEntity>)))
                 {

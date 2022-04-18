@@ -1,11 +1,14 @@
-using Application.EventSourcing;
+using Application.EventSourcing.EsFramework;
 using Application.ShippingOrders.Commands;
+using Domain.Entities;
 using Presentation.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGrpc();
 builder.Services.AddEventResolver(typeof(CancelShippingOrderCommand).Assembly);
+
+builder.Services.AddTransient<IAggregateRoot<ShippingOrder>, AggregateRoot<ShippingOrder>>();
 
 var app = builder.Build();
 

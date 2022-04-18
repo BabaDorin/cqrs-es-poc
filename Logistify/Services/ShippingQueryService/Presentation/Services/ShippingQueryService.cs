@@ -32,7 +32,8 @@ namespace Presentation.Services
             return response;
         }
 
-        public override async Task<GetShippingOrdersResponse> GetShippingOrders(Empty request, ServerCallContext context)
+        public override async Task<GetShippingOrdersResponse> GetShippingOrders(
+            Empty request, ServerCallContext context)
         {
             var query = new GetShippingOrdersQuery();
             var result = await mediator.Send(query, context.CancellationToken);

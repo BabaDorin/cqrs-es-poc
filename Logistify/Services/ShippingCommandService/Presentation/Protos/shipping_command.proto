@@ -28,8 +28,9 @@ message CreateShippingOrderRequest {
 }
 
 message UpdateShippingOrderRequest {
-	string address = 1;
-	google.protobuf.StringValue description = 2;
+	string id = 1;
+	string address = 2;
+	google.protobuf.StringValue description = 3;
 }
 
 message ShippingOrderRequest {
