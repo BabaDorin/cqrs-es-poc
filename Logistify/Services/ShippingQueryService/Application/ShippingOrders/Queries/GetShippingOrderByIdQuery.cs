@@ -25,7 +25,7 @@ namespace Application.ShippingOrders.Queries
 
         public async Task<ShippingOrderDetails> Handle(GetShippingOrderByIdQuery request, CancellationToken cancellationToken)
         {
-            return await ordersRespository.GetByIdAsync(request.Id, cancellationToken);
+            return await ordersRespository.GetDetailsByIdAsync(request.Id, cancellationToken);
         }
     }
 }
