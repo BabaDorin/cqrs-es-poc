@@ -24,13 +24,16 @@ namespace Application.ShippingOrders.Commands
     {
         private readonly IShippingOrderRepository shippingOrderRepository;
         private readonly IAggregateRoot<ShippingOrder> aggregateRoot;
+        private readonly IMessagePublisher messagePublisher;
 
         public UpdateShippingOrderCommandHandler(
             IShippingOrderRepository shippingOrderRepository,
-            IAggregateRoot<ShippingOrder> aggregateRoot)
+            IAggregateRoot<ShippingOrder> aggregateRoot,
+            IMessagePublisher messagePublisher)
         {
             this.shippingOrderRepository = shippingOrderRepository;
             this.aggregateRoot = aggregateRoot;
+            this.messagePublisher = messagePublisher;
         }
 
         public async Task<ShippingOrder> Handle(UpdateShippingOrderCommand request, CancellationToken cancellationToken)
@@ -49,6 +52,8 @@ namespace Application.ShippingOrders.Commands
             
             previousEvents.Add(@event);
             await aggregateRoot.Apply(previousEvents);
+
+            await messagePublisher.PublishAsync(request.Id, @event, cancellationToken);
 
             return aggregateRoot.CurrentState;
         }
