@@ -13,13 +13,18 @@ namespace Application.EventSourcing.EsFramework
 
             foreach (var assembly in assemblies)
             {
-                var assemblyAppliers = assembly.GetTypes().Where(x => x == typeof(IEventApplier<,>));
+                var assemblyAppliers = assembly.GetTypes()
+                    .Where(x => x.IsClass
+                        && x.GetInterfaces()
+                            .Any(i => i.Name == typeof(IEventApplier<,>).Name && i.Assembly == typeof(IEventApplier<,>).Assembly));
 
                 assemblyAppliers
                     .ToList()
                     .ForEach(applier =>
                     {
-                        var key = new Tuple<Type, Type>(applier.GenericTypeArguments[0], applier.GenericTypeArguments[1]);
+                        var key = new Tuple<Type, Type>(
+                            applier.GetInterface(typeof(IEventApplier<,>).Name).GenericTypeArguments[0],
+                            applier.GetInterface(typeof(IEventApplier<,>).Name).GenericTypeArguments[1]);
                         var value = Activator.CreateInstance(applier);
 
                         if (value != null) eventAppliers.Add(key, value);

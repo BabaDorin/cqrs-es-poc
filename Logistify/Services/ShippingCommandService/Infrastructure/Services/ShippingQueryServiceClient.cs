@@ -21,9 +21,18 @@ namespace Infrastructure.Services
                 EventType = message.EventType,
             };
 
-            client.PublishMessageSimulationAsync(eventMessage, new Grpc.Core.Metadata());
+            try
+            {
+                client.PublishMessageSimulation(eventMessage);
+            }
+            catch (Exception ex)
+            {
 
+                throw;
+            }
+            
             return Task.CompletedTask;
+            //await client.PublishMessageSimulationAsync(eventMessage, new Grpc.Core.Metadata());
         }
     }
 }

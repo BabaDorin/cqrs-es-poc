@@ -4,9 +4,9 @@ using Domain.Events;
 
 namespace Application.EventSourcing.EventAppliers
 {
-    public class ShippingOrderUpdatedApplier : IEventApplier<ShippingOrderCreated, ShippingOrder>
+    public class ShippingOrderUpdatedApplier : IEventApplier<ShippingOrderUpdated, ShippingOrder>
     {
-        public Task Apply(ShippingOrderCreated @event, ShippingOrder entity)
+        public Task Apply(ShippingOrderUpdated @event, ShippingOrder entity)
         {
             entity.Address = @event.Address;
             entity.Description = @event.Description;

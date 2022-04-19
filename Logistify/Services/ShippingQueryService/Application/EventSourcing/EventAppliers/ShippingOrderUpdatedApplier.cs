@@ -4,9 +4,9 @@ using Domain.Events;
 
 namespace Application.EventSourcing.EventAppliers
 {
-    public class ShippingOrderUpdatedToOrderApplier : IEventApplier<ShippingOrderCreated, ShippingOrder>
+    public class ShippingOrderUpdatedToOrderApplier : IEventApplier<ShippingOrderUpdated, ShippingOrder>
     {
-        public Task Apply(ShippingOrderCreated @event, ShippingOrder entity)
+        public Task Apply(ShippingOrderUpdated @event, ShippingOrder entity)
         {
             entity.Address = @event.Address;
 
@@ -14,9 +14,9 @@ namespace Application.EventSourcing.EventAppliers
         }
     }
 
-    public class ShippingOrderUpdatedToOrderDetailsApplier : IEventApplier<ShippingOrderCreated, ShippingOrderDetails>
+    public class ShippingOrderUpdatedToOrderDetailsApplier : IEventApplier<ShippingOrderUpdated, ShippingOrderDetails>
     {
-        public Task Apply(ShippingOrderCreated @event, ShippingOrderDetails entity)
+        public Task Apply(ShippingOrderUpdated @event, ShippingOrderDetails entity)
         {
             entity.Address = @event.Address;
             entity.Description = @event.Description;
