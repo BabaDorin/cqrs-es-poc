@@ -7,8 +7,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\shipping_query.proto" />
+    <None Remove="Proto\shipping_query.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Include="Protos\shipping_query.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.20.0" />
+    <PackageReference Include="Grpc" Version="2.45.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.44.0" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.44.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.45.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+    <PackageReference Include="System.Text.Json" Version="6.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Proto\shipping_query.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

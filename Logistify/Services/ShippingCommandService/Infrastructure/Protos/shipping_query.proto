@@ -1,0 +1,22 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Presentation";
+
+package shipping_query;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+service ShippingQueryService {
+	rpc PublishMessageSimulation (ShippingOrderEventMessage) returns (PublishMessageSimulationResponse);
+}
+
+message ShippingOrderEventMessage {
+	string stream_id = 1;
+	string event_type = 2;
+	google.protobuf.StringValue data = 3;
+}
+
+message PublishMessageSimulationResponse {
+
+}

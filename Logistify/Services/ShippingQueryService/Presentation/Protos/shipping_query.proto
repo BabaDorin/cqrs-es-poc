@@ -10,6 +10,7 @@ import "google/protobuf/empty.proto";
 service ShippingQueryService {
 	rpc GetShippingOrderById (GetShippingOrderByIdRequest) returns (ShippingOrderDetails);
 	rpc GetShippingOrders (google.protobuf.Empty) returns (GetShippingOrdersResponse);
+	rpc PublishMessageSimulation (ShippingOrderEventMessage) returns (PublishMessageSimulationResponse);
 }
 
 enum OrderStatus {
@@ -40,4 +41,14 @@ message ShippingOrder {
 
 message GetShippingOrdersResponse {
 	repeated ShippingOrder orders = 1;
+}
+
+message ShippingOrderEventMessage {
+	string stream_id = 1;
+	string event_type = 2;
+	google.protobuf.StringValue data = 3;
+}
+
+message PublishMessageSimulationResponse {
+
 }

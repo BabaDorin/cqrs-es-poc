@@ -54,5 +54,10 @@ namespace Presentation.Services
 
             return response;
         }
+
+        public override Task<PublishMessageSimulationResponse> PublishMessageSimulation(ShippingOrderEventMessage request, ServerCallContext context)
+        {
+            return base.PublishMessageSimulation(request, context);
+        }
     }
 }
