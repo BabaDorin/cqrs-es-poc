@@ -5,9 +5,20 @@ using Domain.Events;
 
 namespace Application.EventSourcing.EventAppliers
 {
-    public class ShippingOrderCreatedApplier : IEventApplier<ShippingOrderCreated, ShippingOrder>
+    public class ShippingOrderCreatedToOrderApplier : IEventApplier<ShippingOrderCreated, ShippingOrder>
     {
         public Task Apply(ShippingOrderCreated @event, ShippingOrder entity)
+        {
+            entity.Address = @event.Address;
+            entity.Status = OrderStatus.Pending;
+
+            return Task.CompletedTask;
+        }
+    }
+
+    public class ShippingOrderCreatedToOrderDetailsApplier : IEventApplier<ShippingOrderCreated, ShippingOrderDetails>
+    {
+        public Task Apply(ShippingOrderCreated @event, ShippingOrderDetails entity)
         {
             entity.Address = @event.Address;
             entity.PlacedBy = @event.PlacedBy;
