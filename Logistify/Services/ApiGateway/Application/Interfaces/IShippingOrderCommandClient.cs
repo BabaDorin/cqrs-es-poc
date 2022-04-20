@@ -2,7 +2,7 @@
 
 namespace Application.Interfaces
 {
-    public interface IShippingOrderCommandService
+    public interface IShippingOrderCommandClient
     {
         Task<ShippingOrderDetailsDto> CreateShippingOrderAsync(
             ShippingOrderDetailsDto orderDetails, CancellationToken cancellationToken);

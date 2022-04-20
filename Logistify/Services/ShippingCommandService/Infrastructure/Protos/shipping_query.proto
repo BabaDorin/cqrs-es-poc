@@ -1,4 +1,4 @@
-﻿syntax = "proto3";
+syntax = "proto3";
 
 option csharp_namespace = "Presentation";
 
@@ -11,10 +11,14 @@ service ShippingQueryService {
 	rpc PublishMessageSimulation (ShippingOrderEventMessage) returns (PublishMessageSimulationResponse);
 }
 
+message EventMessage {
+	string event_type = 1;
+	google.protobuf.StringValue data = 2;
+}
+
 message ShippingOrderEventMessage {
 	string stream_id = 1;
-	string event_type = 2;
-	google.protobuf.StringValue data = 3;
+	repeated EventMessage events = 2;
 }
 
 message PublishMessageSimulationResponse {

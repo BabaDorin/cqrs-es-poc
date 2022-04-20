@@ -20,9 +20,9 @@ namespace Application.ShippingOrders.Commands
 
     public class CreateShippingOrderCommandHandler : IRequestHandler<CreateShippingOrderCommand, ShippingOrderDetailsDto>
     {
-        private readonly IShippingOrderCommandService orderCommandService;
+        private readonly IShippingOrderCommandClient orderCommandService;
 
-        public CreateShippingOrderCommandHandler(IShippingOrderCommandService orderCommandService)
+        public CreateShippingOrderCommandHandler(IShippingOrderCommandClient orderCommandService)
         {
             this.orderCommandService = orderCommandService;
         }
