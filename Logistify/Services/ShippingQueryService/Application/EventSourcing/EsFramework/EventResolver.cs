@@ -37,14 +37,16 @@ namespace Application.EventSourcing.EsFramework
             where TEvent : IEvent
             where TEntity : class
         {
-            if (!eventAppliers.TryGetValue(new Tuple<Type, Type>(@event.GetType(), entity.GetType()), out object? eventApplier))
+            if (eventAppliers.TryGetValue(new Tuple<Type, Type>(@event.GetType(), entity.GetType()), out object? eventApplier))
             {
-                if (eventApplier is null || !eventApplier.GetType().IsAssignableFrom(typeof(IEventApplier<TEvent, TEntity>)))
+                if (eventApplier is null)
                 {
                     throw new InvalidOperationException("No event applier for found for the specified TEvent and TEntity pair.");
                 }
 
-                return (eventApplier as IEventApplier<TEvent, TEntity>)!.Apply(@event, entity);
+                return (Task)eventApplier.GetType()
+                    .GetRuntimeMethod("Apply", new Type[] { @event.GetType(), entity.GetType() })
+                    .Invoke(eventApplier, new object[] { @event, entity });
             }
 
             throw new InvalidOperationException("No event applier for found for the specified TEvent and TEntity pair.");

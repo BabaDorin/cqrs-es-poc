@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <None Remove="Protos\shipping_query.proto" />
-    <None Remove="Proto\shipping_query.proto" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Proto\shipping_query.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\shipping_query.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

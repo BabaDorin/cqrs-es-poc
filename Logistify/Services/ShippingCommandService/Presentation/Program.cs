@@ -22,8 +22,6 @@ builder.Services.AddGrpcClients(builder.Configuration);
 builder.Services.AddEventResolver(typeof(CancelShippingOrderCommand).Assembly);
 builder.Services.AddTransient<IAggregateRoot<ShippingOrder>, AggregateRoot<ShippingOrder>>();
 
-builder.Services.AddHostedService<TestJob>();
-
 var app = builder.Build();
 
 app.MapGrpcService<ShippingOrderCommandService>();

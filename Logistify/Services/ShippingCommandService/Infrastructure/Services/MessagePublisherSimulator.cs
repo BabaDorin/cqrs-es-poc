@@ -21,7 +21,9 @@ namespace Infrastructure.Services
 
         public Task PublishAsync(Guid streamId, IEvent @event, CancellationToken cancellationToken)
         {
-            var message = new ShippingOrderEventMessage(streamId, @event.GetType().Name, JsonSerializer.Serialize(@event));
+            var json = JsonSerializer.Serialize(@event, @event.GetType());
+
+            var message = new ShippingOrderEventMessage(streamId, @event.GetType().Name, JsonSerializer.Serialize(@event, @event.GetType()));
             shippingQueryService.PublishMessageSimulation(message);
 
             return Task.CompletedTask;
