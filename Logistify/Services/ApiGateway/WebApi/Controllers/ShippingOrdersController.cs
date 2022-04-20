@@ -69,5 +69,17 @@ namespace WebApi.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("{id}/cancel")]
+        public async Task<IActionResult> Cancel(Guid id, CancellationToken cancellationToken)
+        {
+            var command = new CancelShippingOrderCommand(id);
+
+            var result = await mediator.Send(command, cancellationToken);
+
+            return result
+                ? Ok()
+                : BadRequest();
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace Application.Interfaces
 
         Task<ShippingOrderDetailsDto> UpdateShippingOrderAsync(
             Guid id, ShippingOrderDetailsDto orderDetails, CancellationToken cancellationToken);
+
+        Task<bool> CancelShippingOrderAsync(Guid id, CancellationToken cancellationToken);
     }
 }

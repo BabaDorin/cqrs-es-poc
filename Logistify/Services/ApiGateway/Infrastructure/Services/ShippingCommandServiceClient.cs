@@ -58,5 +58,17 @@ namespace Infrastructure.Services
 
             return dto;
         }
+        
+        public async Task<bool> CancelShippingOrderAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var request = new ShippingOrderRequest
+            {
+                Id = id.ToString()
+            };
+
+            var result = await client.CancelShippingOrderAsync(request, cancellationToken: cancellationToken);
+
+            return result.OperationSucceeded;
+        }
     }
 }
