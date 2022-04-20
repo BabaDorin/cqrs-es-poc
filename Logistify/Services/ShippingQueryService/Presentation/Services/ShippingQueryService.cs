@@ -1,8 +1,10 @@
-﻿using Application.ShippingOrders.Queries;
+﻿using Application.ShippingOrders.Commands;
+using Application.ShippingOrders.Queries;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MediatR;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -58,10 +60,21 @@ namespace Presentation.Services
             return response;
         }
 
-        public override Task<PublishMessageSimulationResponse> PublishMessageSimulation(
+        public override async Task<PublishMessageSimulationResponse> PublishMessageSimulation(
             ShippingOrderEventMessage request, ServerCallContext context)
         {
-            return base.PublishMessageSimulation(request, context);
+            var events = request.Events != null && request.Events.Any()
+                ? request.Events
+                    .Select(ev => new Application.Models.EventMessage(ev.EventType, ev.Data))
+                    .ToList()
+                : new List<Application.Models.EventMessage>();
+
+            var msg = new Application.Models.ShippingOrderEventMessage(Guid.Parse(request.StreamId), events);
+
+            var command = new HandleShippingOrderEventMessageCommand(msg);
+            await mediator.Send(command, context.CancellationToken);
+
+            return new PublishMessageSimulationResponse();
         }
     }
 }

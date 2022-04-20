@@ -43,10 +43,14 @@ message GetShippingOrdersResponse {
 	repeated ShippingOrder orders = 1;
 }
 
+message EventMessage {
+	string event_type = 1;
+	google.protobuf.StringValue data = 2;
+}
+
 message ShippingOrderEventMessage {
 	string stream_id = 1;
-	string event_type = 2;
-	google.protobuf.StringValue data = 3;
+	repeated EventMessage events = 2;
 }
 
 message PublishMessageSimulationResponse {

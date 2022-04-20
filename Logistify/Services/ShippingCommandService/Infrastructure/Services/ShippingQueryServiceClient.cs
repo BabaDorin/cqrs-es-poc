@@ -14,25 +14,12 @@ namespace Infrastructure.Services
 
         public Task PublishMessageSimulation(Models.ShippingOrderEventMessage message)
         {
-            var eventMessage = new ShippingOrderEventMessage
-            {
-                StreamId = message.StreamId.ToString(),
-                Data = message.Data,
-                EventType = message.EventType,
-            };
-
-            try
-            {
-                client.PublishMessageSimulation(eventMessage);
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            var eventMessage = new ShippingOrderEventMessage { StreamId = message.StreamId.ToString() };
+            eventMessage.Events.Add(new EventMessage() { EventType = message.EventType, Data = message.Data });
             
+            client.PublishMessageSimulation(eventMessage);
+
             return Task.CompletedTask;
-            //await client.PublishMessageSimulationAsync(eventMessage, new Grpc.Core.Metadata());
         }
     }
 }

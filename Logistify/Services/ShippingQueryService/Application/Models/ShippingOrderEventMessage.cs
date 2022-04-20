@@ -2,6 +2,12 @@
 {
     public class EventMessage
     {
+        public EventMessage(string eventType, string data)
+        {
+            EventType = eventType;
+            Data = data;
+        }
+
         public string EventType { get; }
         public string Data { get; }
     }
