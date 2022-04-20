@@ -37,9 +37,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid orderId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
-            var query = new GetShippingOrderByIdQuery(orderId);
+            var query = new GetShippingOrderByIdQuery(id);
             var result = await mediator.Send(query, cancellationToken);
 
             return result != null
@@ -57,11 +57,10 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(
-            Guid orderId, [FromBody] ShippingOrderViewModel orderViewModel, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update(Guid id, [FromBody] ShippingOrderViewModel orderViewModel, CancellationToken cancellationToken)
         {
             var command = new UpdateShippingOrderCommand(
-                orderId,
+                id,
                 orderViewModel.Address,
                 orderViewModel.Description,
                 CurrentUserId);

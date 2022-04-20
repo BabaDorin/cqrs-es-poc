@@ -39,7 +39,7 @@ namespace Application.ShippingOrders.Commands
         public async Task<ShippingOrder> Handle(UpdateShippingOrderCommand request, CancellationToken cancellationToken)
         {
             var previousEvents = await shippingOrderRepository
-                .GetEventsByAggregateIdAsync(request.Id, cancellationToken);
+                .GetEventsByStreamIdAsync(request.Id, cancellationToken);
 
             if (previousEvents is null || !previousEvents.Any())
             {

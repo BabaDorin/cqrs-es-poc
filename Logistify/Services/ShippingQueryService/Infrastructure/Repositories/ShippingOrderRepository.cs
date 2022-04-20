@@ -5,16 +5,10 @@ namespace Infrastructure.Repositories
 {
     public class ShippingOrderRepository : IShippingOrdersRespository
     {
-        private readonly IList<ShippingOrder> shippingOrders;
-        private readonly IList<ShippingOrderDetails> shippingOrderDetails;
+        private static readonly List<ShippingOrder> shippingOrders = new();
+        private static readonly List<ShippingOrderDetails> shippingOrderDetails = new();
 
-        public ShippingOrderRepository()
-        {
-            shippingOrders = new List<ShippingOrder>();
-            shippingOrderDetails = new List<ShippingOrderDetails>();
-        }
-
-        public Task<IList<ShippingOrder>> GetAsync(CancellationToken cancellationToken)
+        public Task<List<ShippingOrder>> GetAsync(CancellationToken cancellationToken)
         {
             return Task.FromResult(shippingOrders);
         }

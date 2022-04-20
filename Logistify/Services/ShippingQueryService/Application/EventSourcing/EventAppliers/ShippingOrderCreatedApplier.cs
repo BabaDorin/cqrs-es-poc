@@ -9,6 +9,7 @@ namespace Application.EventSourcing.EventAppliers
     {
         public Task Apply(ShippingOrderCreated @event, ShippingOrder entity)
         {
+            entity.Id = @event.Id;
             entity.Address = @event.Address;
             entity.Status = OrderStatus.Pending;
 
@@ -20,6 +21,7 @@ namespace Application.EventSourcing.EventAppliers
     {
         public Task Apply(ShippingOrderCreated @event, ShippingOrderDetails entity)
         {
+            entity.Id = @event.Id;
             entity.Address = @event.Address;
             entity.PlacedBy = @event.PlacedBy;
             entity.Description = @event.Description;
