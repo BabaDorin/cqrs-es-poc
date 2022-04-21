@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions;
 using Application.EventSourcing.EsFramework;
+using Domain.Abstractions;
 using Domain.Entities;
 using Domain.Events;
 using MediatR;
@@ -46,12 +47,13 @@ namespace Application.ShippingOrders.Commands
                 return null;
             }
 
-            var @event = new ShippingOrderUpdated(request.Address, request.Description);
+            await aggregateRoot.Apply(previousEvents);
+
+            var eventVersion = aggregateRoot.ChangeHistory.Last().Version + 1;
+            var @event = new ShippingOrderUpdated(request.Address, request.Description, eventVersion);
+            await aggregateRoot.Apply(new List<IEvent>() { @event });
 
             await shippingOrderRepository.AddEventToStreamAsync(request.Id, @event, cancellationToken);
-            
-            previousEvents.Add(@event);
-            await aggregateRoot.Apply(previousEvents);
 
             await messagePublisher.PublishAsync(request.Id, @event, cancellationToken);
 

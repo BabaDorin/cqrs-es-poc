@@ -1,10 +1,9 @@
-﻿using Domain.Abstractions;
-
-namespace Domain.Events
+﻿namespace Domain.Events
 {
-    public class ShippingOrderUpdated : IEvent
+    public class ShippingOrderUpdated : BaseEvent
     {
-        public ShippingOrderUpdated(string address, string description)
+        public ShippingOrderUpdated(string address, string description, int version)
+            : base(version)
         {
             Address = address;
             Description = description;

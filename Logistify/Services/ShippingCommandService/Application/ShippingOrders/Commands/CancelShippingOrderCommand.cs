@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions;
 using Application.EventSourcing.EsFramework;
+using Domain.Abstractions;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Events;
@@ -50,9 +51,11 @@ namespace Application.ShippingOrders.Commands
                 return false;
             }
 
-            aggregateRoot.CurrentState.Status = OrderStatus.Canceled;
+            var eventVersion = aggregateRoot.ChangeHistory.Last().Version + 1;
+            var @event = new ShippingOrderCanceled(eventVersion);
 
-            var @event = new ShippingOrderCanceled();
+            await aggregateRoot.Apply(new List<IEvent> { @event });
+
             await shippingOrderRepository.AddEventToStreamAsync(aggregateRoot.CurrentState.Id, @event, cancellationToken);
 
             await messagePublisher.PublishAsync(aggregateRoot.CurrentState.Id, @event, cancellationToken);

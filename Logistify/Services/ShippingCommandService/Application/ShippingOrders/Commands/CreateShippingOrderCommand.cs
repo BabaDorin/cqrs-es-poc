@@ -42,16 +42,18 @@ namespace Application.ShippingOrders.Commands
         {
             var streamId = Guid.NewGuid();
 
+            var eventVersion = 0;
             var @event = new ShippingOrderCreated(
                 streamId,
                 OrderStatus.Pending,
                 request.Address,
                 request.Description,
-                request.PlacedBy);
-
-            await shippingOrderRepository.AddEventToStreamAsync(streamId, @event, cancellationToken);
+                request.PlacedBy,
+                eventVersion);
 
             await aggregateRoot.Apply(new List<IEvent> { @event });
+            
+            await shippingOrderRepository.AddEventToStreamAsync(streamId, @event, cancellationToken);
 
             await messagePublisher.PublishAsync(streamId, @event, cancellationToken);
 

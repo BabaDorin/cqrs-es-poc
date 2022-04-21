@@ -1,8 +1,10 @@
-﻿using Domain.Abstractions;
-
-namespace Domain.Events
+﻿namespace Domain.Events
 {
-    public class ShippingOrderCanceled : IEvent
+    public class ShippingOrderCanceled : BaseEvent
     {
+        public ShippingOrderCanceled(int version)
+            : base(version)
+        {
+        }
     }
 }
